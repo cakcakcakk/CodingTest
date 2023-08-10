@@ -3,27 +3,23 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Scanner;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Main {
-
-    static int result,N;
-    static ArrayList<Integer> eachCount;
-    static int[][] a;
-    static boolean[][] visited;
+    static ArrayList<Integer> eachCount=new ArrayList<>();
+    static Queue<int[]> q=new LinkedList<>();
+    static int count,N;
+    static int a[][];
     static int[] dx={0,0,-1,1};
     static int[] dy={-1,1,0,0};
 
     public static void main(String[] args) throws IOException {
 
-        BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-        Scanner sc=new Scanner(System.in);
-
-        int cnt=0;
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N=Integer.parseInt(br.readLine());
-        eachCount=new ArrayList<>();
         a=new int[N][N];
-        visited=new boolean[N][N];
+        int cnt=0;
 
         for(int i=0;i<N;i++){
             String str=br.readLine();
@@ -34,35 +30,38 @@ public class Main {
 
         for(int i=0;i<N;i++){
             for(int j=0;j<N;j++){
-                if(!visited[i][j]&&a[i][j]==1){
-                    result=1;
+                if(a[i][j]==1){
+                    bfs(i,j);
                     cnt++;
-                    dfs(i,j);
-                    eachCount.add(result);
+                    eachCount.add(count);
                 }
             }
         }
-        Collections.sort(eachCount);
 
+        Collections.sort(eachCount);
         System.out.println(cnt);
         for(int i:eachCount){
             System.out.println(i);
         }
-        }
-    static void dfs(int x,int y){
+    }
 
-        visited[x][y]=true;
+    static void bfs(int x,int y){
+        q.offer(new int[]{x,y});
+        count=1;
+        a[x][y]=0;
 
-        for(int i=0;i<4;i++){
-            int nx=x+dx[i];
-            int ny=y+dy[i];
+        while(!q.isEmpty()){
+            int[] now=q.poll();
+            for(int i=0;i<4;i++){
+                int nx=now[0]+dx[i];
+                int ny=now[1]+dy[i];
 
-            if(nx<0 || nx>=N||ny<0||ny>=N){
-                continue;
+                if(nx<0||nx>=N|| ny<0||ny>=N) continue;
+                if(a[nx][ny]==1){
+                    a[nx][ny]=0;
+                    q.offer(new int[]{nx,ny});
+                    count++;
                 }
-            if(!visited[nx][ny]&&a[nx][ny]==1){
-                result++;
-                dfs(nx,ny);
             }
         }
 
