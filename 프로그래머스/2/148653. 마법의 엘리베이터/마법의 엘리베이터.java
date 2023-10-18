@@ -1,51 +1,31 @@
+import java.util.*;
 class Solution {
     public int solution(int storey) {
-        int answer = 0;
+    	String tmp = Integer.toString(storey);
+    	int[] arr = new int[tmp.length()];
+    	for(int i=0; i<tmp.length(); i++) {
+    		arr[i] = tmp.charAt(i) - '0';
+    	}
+    	
+    	int answer = 0;
+    	
+    	for(int i=arr.length-1; i>=0; i--) {
+    		if(arr[i] > 5) {
+    			answer += 10-arr[i];
+    			
+    			if(i==0) answer++;
+    			else arr[i-1]++;
+    		}
+    		else if(arr[i]==5 && i>0 && arr[i-1]>=5) {
+    			arr[i-1]++;
+    			answer += 5;
+    		}
+    		else {
+    			answer += arr[i];
+    		}
 
-        String stVal = String.valueOf(storey);
-        char[] chars = stVal.toCharArray();
-        int[] ints = new int[chars.length];
-        for (int i = 0; i < chars.length; i++) {
-            ints[i] = chars[i] - '0';
-        }
-
-        for (int i = ints.length - 1; i >= 0; i--) {
-            int anInt = ints[i];
-
-            if (anInt == 10) {
-                if (i - 1 < 0) {
-                    answer += 1;
-                    continue;
-                }
-
-                ints[i - 1]++;
-                continue;
-            }
-
-            if (anInt >= 6) {
-                answer += (10 - anInt);
-                if (i - 1 < 0) {
-                    answer += 1;
-                    continue;
-                }
-                ints[i - 1]++;
-            } else if (anInt <= 4) {
-                answer += anInt;
-            } else if (anInt == 5) {
-                if (i - 1 < 0) {
-                    answer += 5;
-                    continue;
-                } else {
-                    if (ints[i - 1] < 5) {
-                        answer += anInt;
-                    } else {
-                        answer += 5;
-                        ints[i - 1]++;
-                    }
-                }
-            }
-        }
-
-        return answer;
+    	}
+    	
+    	return answer;
     }
 }
