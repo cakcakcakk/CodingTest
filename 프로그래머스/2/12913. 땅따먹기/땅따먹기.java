@@ -1,26 +1,17 @@
 class Solution {
     int solution(int[][] land) {
-        int answer=0,max=0;
-        int[] a=new int[4];
-        int[] b=new int[4];
-        for(int i=0;i<4;i++) a[i]=land[0][i];
+        int answer=0;
         
         for(int i=1;i<land.length;i++){
-            for(int j=0;j<4;j++){
-                max=0;
-                for(int k=0;k<4;k++){
-                    if(k==j) continue;
-                    max=Math.max(max,a[k]);
-                }
-                
-                b[j]=max+land[i][j];
-            }
-            for(int j=0;j<4;j++)a[j]=b[j];
+            land[i][0]+=Math.max(land[i-1][1],Math.max(land[i-1][2],land[i-1][3]));
+            land[i][1]+=Math.max(land[i-1][0],Math.max(land[i-1][2],land[i-1][3]));
+            land[i][2]+=Math.max(land[i-1][0],Math.max(land[i-1][1],land[i-1][3]));
+            land[i][3]+=Math.max(land[i-1][0],Math.max(land[i-1][1],land[i-1][2]));
 
         }
-        
-        for(int i=0;i<4;i++) 
-            answer=Math.max(answer,a[i]);
+
+        for(int i=0;i<4;i++)
+            answer=Math.max(answer,land[land.length-1][i]);
 
         return answer;
     }
