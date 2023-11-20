@@ -9,6 +9,7 @@ public class Main {
         int n=Integer.parseInt(br.readLine());
 
         Set<Integer> s=new HashSet<>();
+
         int cnt=0;
 
         StringTokenizer st=new StringTokenizer(br.readLine());
@@ -18,9 +19,9 @@ public class Main {
         int x=Integer.parseInt(br.readLine());
 
         for(int k:s){
-            if(s.contains(x-k)&&x-k>k){ cnt++;}
+            if(s.contains(x-k)){ cnt++;}
         }
-        System.out.println(cnt);
+        System.out.println(cnt/2);
 
     }
 }
