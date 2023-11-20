@@ -8,21 +8,17 @@ public class Main {
 
         int n=Integer.parseInt(br.readLine());
 
-        int[] l =new int[n];
         Set<Integer> s=new HashSet<>();
-
         int cnt=0;
 
         StringTokenizer st=new StringTokenizer(br.readLine());
         for(int i=0;i<n;i++){
-            l[i]=Integer.parseInt(st.nextToken());
-            s.add(l[i]);
+            s.add(Integer.parseInt(st.nextToken()));
         }
         int x=Integer.parseInt(br.readLine());
-        Arrays.sort(l);
 
-        for(int i=0;i<n;i++){
-            if(s.contains(x-l[i])&&l[i]<x-l[i]) {cnt++;}
+        for(int k:s){
+            if(s.contains(x-k)&&x-k>k){ cnt++;}
         }
         System.out.println(cnt);
 
