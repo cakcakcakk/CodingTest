@@ -9,9 +9,9 @@ public class Main{
         StringBuilder sb=new StringBuilder();
 
         int T=Integer.parseInt(br.readLine());
+        fibo();
         for(int i=0;i<T;i++){
             int k=Integer.parseInt(br.readLine());
-            fibo();
             sb.append(a[0][k]+" "+a[1][k]+"\n");
         }
         System.out.print(sb);
