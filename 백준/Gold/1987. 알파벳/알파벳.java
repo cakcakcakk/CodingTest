@@ -3,9 +3,8 @@ import java.io.*;
 
 public class Main
 {
-    static int R,C,max,cnt;
+    static int R,C,max,cnt,sel;
     static char[][] a;
-    static Set<Character> s=new HashSet<>();
     static int[] dx={-1,1,0,0};
     static int[] dy={0,0,-1,1};
     
@@ -28,7 +27,7 @@ public class Main
 		System.out.println(max);
 	}
 	private static void dfs(int r, int c){
-	    s.add(a[r][c]);
+	    sel|= (1<< (a[r][c]-'A'));
 	    cnt++;
 	    max=Math.max(max,cnt);
 	    
@@ -36,11 +35,11 @@ public class Main
 	        int nx=r+dx[i];
 	        int ny=c+dy[i];
 	        
-    	    if(nx>-1&&nx<R&&ny>-1&&ny<C&&!s.contains(a[nx][ny])) {
+    	    if(nx>-1&&nx<R&&ny>-1&&ny<C&& (sel& (1<<(a[nx][ny]-'A')))==0 ) {
 
     	        dfs(nx,ny);
     	        cnt--;
-    	        s.remove(a[nx][ny]);  	        
+    	        sel&=~(1<<(a[nx][ny]-'A'));       
     	    }	        
 	    }	    
 	}
