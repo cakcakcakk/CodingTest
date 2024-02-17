@@ -1,70 +1,75 @@
 import java.io.*;
 import java.util.*;
 
-public class Main {
-	static final int dx[] = {0,0,1,-1};
-	static final int dy[] = {1,-1,0,0};
-	static int n,m,count;
-	static int square[][];
+public class Main
+{
+    static int M,N,K,cnt;
+    static int[][] a;
+    static boolean[][] visited;
+    static int[] dx={-1,1,0,0};
+    static int[] dy={0,0,-1,1};
+    static List<Integer> l=new ArrayList<>();
+    
 	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		n = Integer.parseInt(st.nextToken());
-		m = Integer.parseInt(st.nextToken());
-		int k = Integer.parseInt(st.nextToken());
-		
-		square = new int[n][m];
-		
-		for(int i=0; i<k; i++) {
-			st = new StringTokenizer(br.readLine());
-			int x1 = Integer.parseInt(st.nextToken());
-			int y1 = Integer.parseInt(st.nextToken());
-			int x2 = Integer.parseInt(st.nextToken());
-			int y2 = Integer.parseInt(st.nextToken());
-			
-			for(int y=y1; y<y2; y++) { 
-				for(int x=x1; x<x2; x++){ 
-					square[y][x] = 1; //직사각형이 만들어지는 곳은 1로 변경
-				}
-			}
-		}
-		
-		ArrayList<Integer> areaCount = new ArrayList<>();
-		for(int i=0; i<n; i++) {
-			for(int j=0; j<m; j++) {
-				if(square[i][j] == 0) {
-					count = 0; //영역 개수 초기화
-					dfs(i,j);
-					areaCount.add(count);
-				}
-			}
-		}
-		
-		Collections.sort(areaCount); //오름차순 정렬
-		
-		sb.append(areaCount.size()).append('\n'); //Size = 영역의 개수 
-		for(int i : areaCount)  {
-			sb.append(i + " ");
-		}
-		
+	    BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+	    StringTokenizer st=new StringTokenizer(br.readLine());
+	    StringBuilder sb=new StringBuilder();
+	    
+	    M=Integer.parseInt(st.nextToken());
+	    N=Integer.parseInt(st.nextToken());
+	    K=Integer.parseInt(st.nextToken());
+	    
+	    a=new int[N][M];
+	    visited=new boolean[N][M];
+	    
+	    for(int i=0;i<K;i++){
+    	    st=new StringTokenizer(br.readLine());
+    	    int x1=Integer.parseInt(st.nextToken());
+    	    int y1=Integer.parseInt(st.nextToken());
+    	    int x2=Integer.parseInt(st.nextToken());
+    	    int y2=Integer.parseInt(st.nextToken());
+    	    
+    	    square(x1,y1,x2-1,y2-1);      
+	    }
+
+	    for(int i=0;i<N;i++){
+	        for(int j=0;j<M;j++){
+	            if(!visited[i][j]&&a[i][j]==0) {
+	                cnt=0;
+	                dfs(i,j);
+	                l.add(cnt);	                
+	            }
+	        }
+	    }
+	    Collections.sort(l);
+	    
+	    
+	    sb.append(l.size()).append("\n");
+	    for(int s:l) sb.append(s).append(" ");
+	    
 		System.out.println(sb);
 	}
 	
-	static void dfs(int x, int y) {
-		square[x][y] = 1;
-		count ++; //영역의 개수 증가
-		
-		for(int k=0; k<4; k++) {
-			int nx = x + dx[k];
-			int ny = y + dy[k];
-			
-			if(0<=nx && nx<n && 0<=ny && ny < m) {
-				if(square[nx][ny] == 0) {
-					dfs(nx,ny);
-				}
-			}
-		}
+	private static void dfs(int x, int y){
+	    visited[x][y]=true;
+	    cnt++;
+	    
+	    for(int i=0;i<4;i++){
+	        int nx=x+dx[i];
+	        int ny=y+dy[i];
+	        
+	        if(nx<0||nx>=N||ny<0||ny>=M) continue;
+	        if(!visited[nx][ny]&&a[nx][ny]==0) {
+	            dfs(nx,ny);
+	        }
+	    }
 	}
-
+	
+	private static void square(int x1,int y1, int x2, int y2){
+	    for(int i=x1;i<=x2;i++){
+	        for(int j=y1;j<=y2;j++){
+	            a[i][j]=1;
+	        }
+	    }
+	} 
 }
