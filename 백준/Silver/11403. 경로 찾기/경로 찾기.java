@@ -3,51 +3,41 @@ import java.util.*;
 
 public class Main
 {
-    static int[][] a;
     static int N;
-    static Queue<int[]> q=new LinkedList<>();
+    static int[][] a;
     
 	public static void main(String[] args) throws IOException {
 	    BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-	    StringTokenizer st;
 	    
 	    N=Integer.parseInt(br.readLine());
-	    a=new int[N+1][N+1];
+	    a=new int[N][N];
 	    
-	    for(int i=1;i<=N;i++){
-	        st=new StringTokenizer(br.readLine());
-	        for(int j=1;j<=N;j++){
+	    for(int i=0;i<N;i++){
+	        StringTokenizer st=new StringTokenizer(br.readLine());
+	        for(int j=0;j<N;j++){
 	            a[i][j]=Integer.parseInt(st.nextToken());
-	            if(a[i][j]==1) q.offer(new int[]{i,j});
-	        }
+	        }     
 	    }
 	    
-	    bfs();
+	    fw();
 	    
-	    for(int i=1;i<=N;i++){
-	        for(int j=1;j<=N;j++){
+	    for(int i=0;i<N;i++){
+	        for(int j=0;j<N;j++){
 	            System.out.print(a[i][j]+" ");
 	        }
 	        System.out.println();
 	    }
-		
 	}
 	
-	private static void bfs(){
-        
-        while(!q.isEmpty()){
-            int[] now=q.poll();
-            
-            int i=now[0];
-            int k=now[1];
-            
-            for(int j=1;j<=N;j++){
-                if(a[i][j]==0 && a[k][j]==1) {
-                    a[i][j]=1;
-                    q.offer(new int[]{i,j});
-                }
-            }
-        }
-	    
+	private static void fw(){
+	    for(int k=0;k<N;k++){
+	        for(int i=0;i<N;i++){
+	            for(int j=0;j<N;j++){
+	                if(a[i][k]==1 && a[k][j]==1){
+	                    a[i][j]=1;
+	                }
+	            }
+	        }     
+	    }
 	}
 }
