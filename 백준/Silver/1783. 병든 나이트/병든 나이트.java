@@ -1,19 +1,30 @@
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
-public class Main {
-    static int n ,m;
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        n = sc.nextInt();
-        m = sc.nextInt();
-
-        System.out.println(solve());
+public class Main
+{
+    static int N,M,cnt;
+    
+	public static void main(String[] args) throws IOException {
+	    BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+	    StringTokenizer st=new StringTokenizer(br.readLine()); 
+	    
+	    N=Integer.parseInt(st.nextToken());
+	    M=Integer.parseInt(st.nextToken());
+	   
+        if(N==1) cnt=1;
         
-    }
-    static int solve(){
-        if(n==1) return 1;
-        if(n==2) return Math.min(4, (m+1)/2);
-        if(m<7) return Math.min(4, m);
-        return m-2;
-    }
+        else if(N==2) cnt=Math.min((M+1)/2,4);
+        
+        // 높이 N>=3일 때
+        else {
+            if(M<7) {
+                cnt=Math.min(M,4);
+            }
+            else {
+                cnt=M-2;
+            }           
+        }
+	    System.out.println(cnt);	        
+	}	    
 }
