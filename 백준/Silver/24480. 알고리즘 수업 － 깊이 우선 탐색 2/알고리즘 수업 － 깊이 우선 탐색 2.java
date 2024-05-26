@@ -38,9 +38,10 @@ public class Main
 	private static void dfs(int r){
 	    visited[r]=++cnt;
 	    
-	    for(int i:a[r]) {
-	        if(visited[i]==0) {
-	            dfs(i);
+	    for(int i=0;i<a[r].size();i++) {
+            int k=a[r].get(i);
+	        if(visited[k]==0) {
+	            dfs(k);
 	        }
 	    }
 	} 
