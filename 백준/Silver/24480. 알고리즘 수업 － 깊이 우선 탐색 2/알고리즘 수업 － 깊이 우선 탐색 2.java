@@ -11,6 +11,7 @@ public class Main
 	public static void main(String[] args) throws IOException {
 	    BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 	    StringTokenizer st=new StringTokenizer(br.readLine());
+        StringBuilder sb=new StringBuilder();
 	    
 	    N=Integer.parseInt(st.nextToken());
 	    M=Integer.parseInt(st.nextToken());
@@ -28,11 +29,12 @@ public class Main
 	        a[u].add(v); a[v].add(u);
 	    }
 	    // 내림차순 방문! 정렬 잘 해주기
-	    for(int i=1;i<=N;i++) Collections.sort(a[i],Collections.reverseOrder());
+	    for(int i=1;i<=N;i++) Collections.sort(a[i],(o1,o2)->o2-o1);
 
         dfs(R);
         
-        for(int i=1;i<=N;i++) System.out.println(visited[i]);
+        for(int i=1;i<=N;i++) sb.append(visited[i]+"\n");
+        System.out.print(sb);
 	}
 	
 	private static void dfs(int r){
