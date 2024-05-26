@@ -5,8 +5,7 @@ public class Main
 {
     static int N,M,R;
     static ArrayList<Integer>[] a;
-    static boolean[] visited;
-    static int[] result;
+    static int[] visited;
     static int cnt;
     
 	public static void main(String[] args) throws IOException {
@@ -18,8 +17,7 @@ public class Main
 	    R=Integer.parseInt(st.nextToken());
 	    
 	    a=new ArrayList[N+1];
-	    result=new int[N+1];
-	    visited=new boolean[N+1];
+	    visited=new int[N+1];
 	    
 	    for(int i=0;i<=N;i++) a[i]=new ArrayList<>();
 	    
@@ -34,15 +32,14 @@ public class Main
 
         dfs(R);
         
-        for(int i=1;i<=N;i++) System.out.println(result[i]);
+        for(int i=1;i<=N;i++) System.out.println(visited[i]);
 	}
 	
 	private static void dfs(int r){
-	    visited[r]=true;
-	    result[r]=++cnt;
+	    visited[r]=++cnt;
 	    
 	    for(int i:a[r]) {
-	        if(!visited[i]) {
+	        if(visited[i]==0) {
 	            dfs(i);
 	        }
 	    }
