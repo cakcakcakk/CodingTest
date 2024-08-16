@@ -5,7 +5,7 @@ public class Main
 {   
     static boolean[] visited;
     static long[] order,depth;
-    static List<Integer>[] list;
+    static PriorityQueue<Integer>[] list;
     static long t=1;
     
 	public static void main(String[] args) throws IOException {
@@ -16,12 +16,12 @@ public class Main
 	    int m=Integer.parseInt(st.nextToken());
 	    int r=Integer.parseInt(st.nextToken());
 	    
-	    list=new ArrayList[n+1];
+	    list=new PriorityQueue[n+1];
 	    order=new long[n+1];
 	    depth=new long[n+1];
 	    visited=new boolean[n+1];
 	    
-	    for(int i=1;i<=n;i++) list[i]=new ArrayList<>();
+	    for(int i=1;i<=n;i++) list[i]=new PriorityQueue<>((a,b)->b-a);
 	    
 	    for(int i=0;i<m;i++) {
 	        st=new StringTokenizer(br.readLine());
@@ -31,8 +31,7 @@ public class Main
 	        list[u].add(v);
 	        list[v].add(u);
 	    }
-	    
-	    for(int i=1;i<=n;i++) Collections.sort(list[i],Collections.reverseOrder());
+
 	    Arrays.fill(depth,-1);
 	    
         visited[r]=true;
@@ -50,7 +49,8 @@ public class Main
 	
 	private static void dfs(int a) {
 	    
-	    for(int i:list[a]) {
+	    while(!list[a].isEmpty()) {
+	        int i=list[a].poll();
 	        if(visited[i]) continue;
 	        
 	        visited[i]=true;
