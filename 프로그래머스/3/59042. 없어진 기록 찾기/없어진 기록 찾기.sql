@@ -1,0 +1,11 @@
+-- 코드를 입력하세요, 외래키래요
+-- OUT에는 있는데, INS에는 없는 것을 찾자
+-- OUTS가 메인 ㅜ커리에 있어야 할 것 같다
+SELECT ANIMAL_ID, NAME
+FROM ANIMAL_OUTS AS O
+WHERE NOT EXISTS (
+SELECT 1  -- 상관없는 SELECT문
+FROM ANIMAL_INS AS I
+WHERE I.ANIMAL_ID=O.ANIMAL_ID
+)
+ORDER BY ANIMAL_ID ASC 
