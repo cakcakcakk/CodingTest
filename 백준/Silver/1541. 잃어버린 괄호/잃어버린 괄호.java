@@ -5,20 +5,18 @@ public class Main
 {
 	public static void main(String[] args) throws IOException {
 	    BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+	    String[] sub=br.readLine().split("-");
 	    boolean first=true;
 	    int sum=0;
 	    
-	    
-	    StringTokenizer sub=new StringTokenizer(br.readLine(),"-");
-
-	    while(sub.hasMoreTokens()) {
+	    for(String s:sub) {
 	        int tmp=0;
+	        String[] add=s.split("\\+");  // '+'는 특수문자라 특수 이스케이프 처리해야함
 	        
-	        StringTokenizer add=new StringTokenizer(sub.nextToken(),"+");
-	        
-	        while(add.hasMoreTokens()) {
-	            tmp+=Integer.parseInt(add.nextToken());
+	        for(String num:add) {
+	            tmp+=Integer.parseInt(num);	            
 	        }
+	        // tmp는 괄호 안 덧셈들
 	        
 	        if(first) {
 	            sum+=tmp;
@@ -26,11 +24,10 @@ public class Main
 	        }
 	        else {
 	            sum-=tmp;
-	        }
-	        
+	        }	        
 	    }
+	    
 	    System.out.println(sum);
-
 		
 	}
 }
