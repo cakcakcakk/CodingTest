@@ -40,6 +40,7 @@ public class Main
 	            }
 	        }
 	        sb.append("\n");
+            return;
 	    }
 	    
 	    for(int i=idx;i<k;i++) {
