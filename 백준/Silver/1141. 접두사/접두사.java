@@ -1,48 +1,44 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Main
 {
+    static int n;
+    static Set<String> set=new HashSet<>();
+    
 	public static void main(String[] args) throws IOException {
 	    BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 	    
-	    int n=Integer.parseInt(br.readLine());
+	    n=Integer.parseInt(br.readLine());
 	    String[] str=new String[n];
 	    
 	    for(int i=0;i<n;i++) {
 	        str[i]=br.readLine();
 	    }
 	    
-	    Arrays.sort(str,new Comparator<>(){
+	    Arrays.sort(str, new Comparator<>(){
 	        public int compare(String s1, String s2) {
 	            return Integer.compare(s2.length(),s1.length());
 	        }
-	        
 	    });
-	    
-	    Set<String> set=new HashSet<>();
-	    
 	    
 	    set.add(str[0]);
 	    
-	    for(String word: str) {
-	        boolean available=true;
-	        
-	        for(String comp: set) {
-	            
-	            if(comp.indexOf(word)==0) {  // 어느 string이 먼저인지 확인하기
-	                                        //  set에 이미 있는 중복단어 있어도 ㄱㅊ
-	                available=false;
-	                break;
-	            }
+	    for(String s1:str) {
+	        boolean contain=false;
+	        for(String s2:set) {
+	            // 모든 s2에 대해 -1 나온 s1은 add할 것
+	            if(s2.indexOf(s1)==0) { //주체(s2)에서 인자(s1)를 찾아라 
+	                contain=true;
+	                break;	               
+	            }	          	            	            
 	        }
-	        
-	        if(available) {
-	            set.add(word);
-	        }
+	        //set에 들어가도 되는 애애들
+	        if(!contain) {
+	            set.add(s1);
+	        }	        
 	    }
-
-
+	    
 		System.out.println(set.size());
 	}
 }
