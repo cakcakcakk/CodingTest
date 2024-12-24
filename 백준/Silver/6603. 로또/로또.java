@@ -4,8 +4,6 @@ import java.io.*;
 public class Main
 {
     static int k;
-    static int[] arr;
-    static boolean[] visited;
     static StringBuilder sb=new StringBuilder();
 	public static void main(String[] args) throws IOException {
 	    BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
@@ -18,13 +16,12 @@ public class Main
 	        if(k==0) {
 	            break;
 	        }
-	        arr=new int[k];
-	        visited=new boolean[k];
-	        //정렬이 되는 treeset, 할 필요 없는 hashset, 또는 배열 중... 배열 선택-이유는?
+	        int[] arr=new int[k];
+	        //정렬이 되는 treeset, 할 필요 없는 hashset, 또는 배열?
 	        for(int i=0;i<k;i++) {
 	            arr[i]=Integer.parseInt(st.nextToken());
 	        }
-	        per(0,0);
+	        per(0, 0, arr, new int[6]);
 	        sb.append("\n");
 	        
 	    }
@@ -32,23 +29,19 @@ public class Main
 		
 	}
 	
-	static void per(int depth, int idx){
+	static void per(int depth, int idx, int[] arr, int[] result){
 	    if(depth==6) {
-	        for(int i=0;i<k;i++) {
-	            if(visited[i]) {
-	                sb.append(arr[i]+" ");
-	            }
+	        for(int i=0;i<6;i++) {
+                sb.append(result[i]).append(' ');
 	        }
-	        sb.append("\n");
-            return;
+	        sb.append('\n');
+	        return;
 	    }
 	    
 	    for(int i=idx;i<k;i++) {
-	        if(!visited[i]) {
-	            visited[i]=true;
-	            per(depth+1, i+1);
-	            visited[i]=false;
-	        }
+	        result[depth]=arr[i];
+            per(depth+1, i+1,arr,result);
+
 	    }
 	}
 }
