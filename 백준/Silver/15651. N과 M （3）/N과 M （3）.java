@@ -23,16 +23,17 @@ public class Main
 	
 	private static void dfs(int depth) {
 	    if(depth==m) {
-	        for(int val:arr) {
-	            sb.append(val+" ");
+	        for(int i=0;i<m;i++) {
+	            sb.append(arr[i]).append(' ');
 	        }
 	        sb.append("\n");
 	        return;
 	    }
 	    
-	    for(int i=0;i<n;i++) {
-	        arr[depth]=i+1;
+	    for(int i=1;i<=n;i++) {
+	        arr[depth]=i;
             dfs(depth+1);
-	    }	    
+	    }
+	    
 	}
 }
