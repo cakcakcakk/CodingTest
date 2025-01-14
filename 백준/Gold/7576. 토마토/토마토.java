@@ -1,77 +1,73 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
-public class Main{
-    static int N,M;
-    static boolean zero;
-    static int[][] a;
+public class Main
+{   
+    static int max,zero;
     static int[] dx={-1,1,0,0};
-    static int[] dy={0,0,1,-1};
-    static Queue<int[]>q=new LinkedList<>();
+    static int[] dy={0,0,-1,1};
+    static int n,m;
+    static int[][] list;
+    static boolean[][] visited;
+    static boolean ripe=true;
+    static Queue<int[]> q=new LinkedList<>();
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st=new StringTokenizer(br.readLine());
+	public static void main(String[] args) throws IOException {
+	    BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+	    
+	    StringTokenizer st=new StringTokenizer(br.readLine());
+	    m=Integer.parseInt(st.nextToken());
+	    n=Integer.parseInt(st.nextToken());
+	    
+	    visited=new boolean[n][m];
+	    list=new int[n][m];
+	    
+	    for(int i=0;i<n;i++){
+	        st=new StringTokenizer(br.readLine());
+	        for(int j=0;j<m;j++) {
+	            list[i][j]=Integer.parseInt(st.nextToken());
+	            
+	            if(list[i][j]==0) {
+	                zero++;  // 새로 익어야 할 토마토 개수
+	                ripe=false;
+	            }	            
+	            // 익은 애들은 이미 다 있어야 한다!
+	            if(list[i][j]==1) {
+	                q.add(new int[]{i,j});
+	            }
+	        }
+	    }
+	    
+	    if(ripe) {
+	        System.out.println(0); // 이미 모두 익은 경우
+	        return;
+	    }
+	    
+	    bfs();
+	}
+	
+	private static void bfs(){
+	    int tomato=0;
 
-        M=Integer.parseInt(st.nextToken());
-        N=Integer.parseInt(st.nextToken());
-
-        a=new int[N+1][M+1];
-
-        for(int i=1;i<=N;i++){
-            st=new StringTokenizer(br.readLine());
-            for(int j=1;j<=M;j++){
-                a[i][j]=Integer.parseInt(st.nextToken());
-                if(a[i][j]==0) zero=true;
-                else if (a[i][j]==1) {q.add(new int[]{i,j});}
-
-            }
-        }
-
-        if(!zero) {
-            System.out.println(0);
-            return;
-        }
-
-        bfs();
-
-    }
-
-    static void bfs(){
-
-
-        while(!q.isEmpty()){
-            int[] now=q.poll();
-
-            for(int i=0;i<4;i++){
-                int nx=now[0]+dx[i];
-                int ny=now[1]+dy[i];
-
-                if(nx<1||nx>N||ny<1||ny>M) continue;
-                if(a[nx][ny]==0) {
-                    q.add(new int[]{nx,ny});
-                    a[nx][ny]=a[now[0]][now[1]]+1;
-                }
-
-            }
-        }
-
-        int max=0;
-        for(int i=1;i<=N;i++){
-            for(int j=1;j<=M;j++){
-                if(a[i][j]==0){
-                    System.out.println(-1);
-                    return;
-                }
-                max=Math.max(max,a[i][j]);
-            }
-        }
-
-        System.out.println(max-1);
-
-    }
+	    while(!q.isEmpty()) {
+	        int[] now=q.poll();
+	        int x=now[0];
+	        int y=now[1];
+	        
+	        for(int i=0;i<4;i++) {
+	            int nx=x+dx[i];
+	            int ny=y+dy[i];
+	            
+	            if(nx<0||nx>=n||ny<0||ny>=m) continue;
+	           
+	            if(list[nx][ny]==0) { 
+	                list[nx][ny]=list[x][y]+1;
+	                tomato++;
+	                q.add(new int[]{nx,ny});
+	            }
+	        }
+	        max=Math.max(max,list[x][y]);
+	    }
+	    System.out.println(tomato==zero?max-1:-1);
+	}
 }
