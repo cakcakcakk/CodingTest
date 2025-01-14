@@ -59,7 +59,7 @@ public class Main
 	            if(nx<1||nx>n||ny<1||ny>m) continue;
 	           
 	            if(list[nx][ny]==1&&!visited[nx][ny]) { // visited확인문 있어야힘!!
-	                list[nx][ny]=++cnt;
+	                cnt++;
 	                visited[nx][ny]=true;
 	                q.add(new int[]{nx,ny});
 	            }
