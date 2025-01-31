@@ -1,39 +1,35 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Main
 {   
+    static int[][] dp=new int[31][31];
+
 	public static void main(String[] args) throws IOException {
+	    
 	    BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-	    StringBuilder sb=new StringBuilder();
 	    int t=Integer.parseInt(br.readLine());
-	        
+	    StringTokenizer st;
+	    StringBuilder sb=new StringBuilder();
+	    
 	    for(int tc=0;tc<t;tc++){
-	        StringTokenizer st=new StringTokenizer(br.readLine());
-	        int n=Integer.parseInt(st.nextToken());
-	        int m=Integer.parseInt(st.nextToken());
 	        
-	        int[][] dp=new int[30][30];
+	        st=new StringTokenizer(br.readLine());
 	        
-	        //함수 시작
-	        for(int i=1;i<=m;i++){
-    	        dp[i][0]=dp[i][i]=1;
-    	        dp[i][1]=i;
-    	    }
-    	    
-    	    for(int i=1;i<=m;i++){
-    	        for(int j=1;j<=n&&j<=i;j++){
-    	            if(j==1||j==m) continue;
-    	            else {
-    	                dp[i][j]=dp[i-1][j-1]+dp[i-1][j];
-    	            }
-    	        }
-    	    }
-    	    
-    	    sb.append(dp[m][n]+"\n");	        
-	    }	    
-	    System.out.print(sb);
-
+	        int a=Integer.parseInt(st.nextToken());
+	        int b=Integer.parseInt(st.nextToken());
+	        
+            sb.append(comb(b,a)).append("\n");        
+	    }
+        
+        System.out.println(sb);
 	}
-
+	
+	    private static int comb(int n, int r) {
+	        if(dp[n][r]>0) return dp[n][r];
+	        
+	        if(n==r||r==0) return dp[n][r]=1;	            
+	        
+	        return dp[n][r]=comb(n-1,r-1)+comb(n-1,r);
+	    }
 }
