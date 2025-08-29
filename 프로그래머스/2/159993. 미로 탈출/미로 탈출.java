@@ -6,7 +6,7 @@ class Solution {
     int[] dx={-1,1,0,0};
     int[] dy={0,0,-1,1};
     String[] MIRO;  // maps를 전역으로 쓰기 위함 
-    int[] start; int[] labor;
+    int[] start; int[] lever;
     
     public int solution(String[] maps) {
 
@@ -23,13 +23,13 @@ class Solution {
                 }
                                 
                 if(MIRO[i].charAt(j)=='L') {
-                    labor=new int[]{i,j};
+                    lever=new int[]{i,j};
                 }                
             }
         }
         
         int result1=bfs(start,'L');
-        int result2=bfs(labor,'E');
+        int result2=bfs(lever,'E');
         
         if(result1==-1 || result2==-1) return -1;
         else return result1 + result2;
