@@ -7,13 +7,12 @@ class Solution {
         // 모두 int로 가능, 투포인터
         int left=0; 
         int tmp=0;
-        
-        
+            
         for(int right=0;right<sequence.length;right++) {
             
             tmp+=sequence[right];
             
-            while(left<right && tmp>k) {
+            while( tmp>k) {
                 tmp-=sequence[left];
                 left++;          
             }
