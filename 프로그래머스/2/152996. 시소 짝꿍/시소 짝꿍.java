@@ -1,35 +1,37 @@
-import java.util.*;
 class Solution {
     public long solution(int[] weights) {
-        long answer = 0;
-        Map<Integer,Integer>m=new HashMap<>();
+        long answer = 0;  // nC2 인데 n<=10^5 니까
+        long[] arr=new long[1001];
         
-        for(int i=0;i<weights.length;i++){
-            m.put(weights[i],m.getOrDefault(weights[i],0)+1);            
+        for(int i=0;i<weights.length;i++) {
+            arr[weights[i]]++;
         }
-        Arrays.sort(weights);
-	    int prev=0;
-
-	    for(int i=0;i<weights.length;i++){
-	        
-	        int d1=weights[i];
-
-	        if(i>0&&weights[i]==weights[i-1]){
-	            prev--;
-	            answer+=prev;
-	            
-	            continue;
-	        }
-	        prev=0;
-	        if(m.containsKey(weights[i])&&m.get(weights[i])>1) {prev+=(m.get(weights[i])-1);}
-	        if(weights[i]*3%2==0&&m.containsKey(weights[i]*3/2)) {d1=weights[i]*3/2; prev+=m.get(d1);}
-	        if(weights[i]*4%2==0&&m.containsKey(weights[i]*4/2)) {d1=weights[i]*4/2; prev+=m.get(d1);}
-	        if(weights[i]*4%3==0&&m.containsKey(weights[i]*4/3)) {d1=weights[i]*4/3; prev+=m.get(d1);}
-
-	        answer+=prev;
-	    }                
+        
+        for(int i=100;i<1001;i++) {
+            if(arr[i]==0) continue;
+            int j;
+            
+            // 1:1
+            answer+= arr[i]*(arr[i]-1)/2;
+            
+            // 1:2
+            if(i*2<1001) {
+                answer+=arr[i]*arr[i*2];
+            }
+            
+            // 2:3
+            if(i*3%2==0 && i*3/2<1001) {
+                j=i*3/2;
+                answer+=arr[i]*arr[j];
+            }
+            // 3:4
+            if(i*4%3==0 && i*4/3<1001) {
+                j=i*4/3;
+                answer+=arr[i]*arr[j];
+            }
+            
+        }
         
         return answer;
     }
-    
 }
