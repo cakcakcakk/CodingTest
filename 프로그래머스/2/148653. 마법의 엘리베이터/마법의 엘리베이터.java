@@ -2,20 +2,22 @@ class Solution {
     public int solution(int storey) {
         int answer = 0;
         
+        // 일의 자리 
         while(storey!=0) {
-            int upper=(storey%100)/10;
-            int num=storey%10;
+            int lower=storey%10;
+            int upper=storey%100/10;
             
-            if(num>5 || num==5 && upper>=5) {
+            if(lower>5 || lower==5 && upper>=5) {
+                answer+=10-lower;
                 storey+=10;
-                answer+=(10-num);
+                
             }
             else {
-                answer+=num;
+                answer+=lower;                
             }
-            
             storey/=10;
         }
+        
         return answer;
     }
 }
