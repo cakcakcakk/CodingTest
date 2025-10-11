@@ -11,6 +11,7 @@ public class Main
 	public static void main(String[] args) throws IOException {
 	    BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 	    StringTokenizer st=new StringTokenizer(br.readLine());
+        StringBuilder sb=new StringBuilder();
 	    
 	    n=Integer.parseInt(st.nextToken());
 	    int m=Integer.parseInt(st.nextToken());
@@ -19,15 +20,10 @@ public class Main
 	        st=new StringTokenizer(br.readLine());
 	        int s=Integer.parseInt(st.nextToken());
 	        int e=Integer.parseInt(st.nextToken());
-	        String dir=st.nextToken();
+	        char dir=st.nextToken().charAt(0);
 	        int c=Integer.parseInt(st.nextToken());
-	        
-	        if(dir.equals("b")) {
-	            list.add(new Train(s,e,c));
-	        }
-	        else {
-	            list.add(new Train(s,e,(-1)*c));
-	        }
+            if(dir=='r') c*=(-1); 
+	        list.add(new Train(s,e,c));	        
 	    }
 
 	    dist=new int[n+1];
@@ -36,8 +32,9 @@ public class Main
 	    bellman_ford();
 	    
 	    for(int i=2;i<=n;i++) {
-	        if(dist[i]<0) System.out.println(i);
+	        if(dist[i]<0) sb.append(i).append("\n");
 	    }
+        System.out.print(sb);
 
 	}
 	private static void bellman_ford() {
