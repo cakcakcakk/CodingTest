@@ -4,7 +4,7 @@ import java.util.*;
 public class Main {
     static long[] dist;
     static List<Edge>[] list;
-    static Set<Integer> set=new HashSet<>();
+    static boolean[] seen;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
@@ -13,6 +13,7 @@ public class Main {
         int n=Integer.parseInt(st.nextToken());
         int m=Integer.parseInt(st.nextToken());
 
+        seen=new boolean[n];
         dist=new long[n];
         Arrays.fill(dist,Long.MAX_VALUE);
         list=new ArrayList[n];
@@ -20,8 +21,7 @@ public class Main {
 
         st=new StringTokenizer(br.readLine());
         for(int i=0;i<n-1;i++) {  // 어차피 마지막은 안해도 될것 같다고 생각함
-            int seen=Integer.parseInt(st.nextToken());
-            if(seen==1) set.add(i);
+            if(Integer.parseInt(st.nextToken())==1) seen[i]=true;
         }
 
         for(int i=0;i<m;i++) {
@@ -30,7 +30,7 @@ public class Main {
             int b=Integer.parseInt(st.nextToken());
             int t=Integer.parseInt(st.nextToken());
 
-            if(set.contains((a)) || set.contains((b))) continue;
+            if(seen[a] || seen[b]) continue;
             list[a].add(new Edge(b,t));
             list[b].add(new Edge(a,t));
         }
@@ -45,10 +45,11 @@ public class Main {
 
         while(!pq.isEmpty()) {
             Edge now=pq.poll();
-            if(dist[now.end]<now.cost) continue;
+            if(visited[now.end]) continue;
+            visited[now.end]=true;
 
             for(Edge next:list[now.end]) {
-                
+                if(dist[next.end]<next.cost) continue;
                 if(dist[next.end]>dist[now.end]+next.cost) {
                     dist[next.end]=dist[now.end]+next.cost;
                     pq.add(new Edge(next.end,dist[next.end]));
