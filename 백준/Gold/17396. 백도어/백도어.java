@@ -45,11 +45,10 @@ public class Main {
 
         while(!pq.isEmpty()) {
             Edge now=pq.poll();
-            if(visited[now.end]) continue;
-            visited[now.end]=true;
+            if(dist[now.end]<now.cost) continue;
 
             for(Edge next:list[now.end]) {
-                if(dist[next.end]<next.cost) continue;
+                
                 if(dist[next.end]>dist[now.end]+next.cost) {
                     dist[next.end]=dist[now.end]+next.cost;
                     pq.add(new Edge(next.end,dist[next.end]));
