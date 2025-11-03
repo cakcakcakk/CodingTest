@@ -1,84 +1,74 @@
+import java.io.*;
 import java.util.*;
- 
+
 public class Main {
- 
-    static int n, m;
-    static boolean[] sight;
-    static ArrayList<Node>[] list;
     static long[] dist;
- 
-    public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
- 
-        //입력
-        n = scan.nextInt();
-        m = scan.nextInt();
- 
-        sight = new boolean[n];
-        for(int i = 0; i < n; i++) {
-            int flag = scan.nextInt();
-            if(flag == 1) sight[i] = true;
-            else sight[i] = false;
+    static List<Edge>[] list;
+    static Set<Integer> set=new HashSet<>();
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st=new StringTokenizer(br.readLine());
+
+        int n=Integer.parseInt(st.nextToken());
+        int m=Integer.parseInt(st.nextToken());
+
+        dist=new long[n];
+        Arrays.fill(dist,Long.MAX_VALUE);
+        list=new ArrayList[n];
+        for(int i=0;i<n;i++) list[i]=new ArrayList<>();
+
+        st=new StringTokenizer(br.readLine());
+        for(int i=0;i<n-1;i++) {  // 어차피 마지막은 안해도 될것 같다고 생각함
+            int seen=Integer.parseInt(st.nextToken());
+            if(seen==1) set.add(i);
         }
- 
-        list = new ArrayList[n];
-        for(int i = 0; i < n; i++) {
-            list[i] = new ArrayList<>();
+
+        for(int i=0;i<m;i++) {
+            st=new StringTokenizer(br.readLine());
+            int a=Integer.parseInt(st.nextToken());
+            int b=Integer.parseInt(st.nextToken());
+            int t=Integer.parseInt(st.nextToken());
+
+            if(set.contains((a)) || set.contains((b))) continue;
+            list[a].add(new Edge(b,t));
+            list[b].add(new Edge(a,t));
         }
- 
-        for(int i = 0; i < m; i++) {
-            int s = scan.nextInt();
-            int e = scan.nextInt();
-            int c = scan.nextInt();
-            list[s].add(new Node(e, c));
-            list[e].add(new Node(s, c));
-        }
-        //입력 끝
- 
-        dist = new long[n];
-        Arrays.fill(dist, Long.MAX_VALUE);
-        dist[0] = 0;
-        dijkstra();
- 
-        if(dist[n - 1] == Long.MAX_VALUE) System.out.println("-1");
-        else System.out.println(dist[n - 1]);
+        dajikstra(0,n);
+        System.out.println(dist[n-1]!=Long.MAX_VALUE?dist[n-1]:-1);
     }
- 
-    public static void dijkstra() {
-        PriorityQueue<Node> q = new PriorityQueue<>();
-        boolean[] visited = new boolean[n];
-        q.offer(new Node(0, 0));
- 
-        while(!q.isEmpty()) {
-            Node current = q.poll();
- 
-            if(visited[current.node]) continue;
-            visited[current.node] = true;
- 
-            for(int i = 0; i < list[current.node].size(); i++) {
-                Node next = list[current.node].get(i);
-                if(next.node != n - 1 && sight[next.node]) continue;
-                if(dist[next.node] > dist[current.node] + next.cost) {
-                    dist[next.node] = dist[current.node] + next.cost;
-                    q.offer(new Node(next.node, dist[next.node]));
+    private static void dajikstra(int start, int n) {
+        PriorityQueue<Edge> pq=new PriorityQueue<>();
+        pq.add(new Edge(start,0));
+        dist[start]=0;
+        boolean[] visited=new boolean[n];
+
+        while(!pq.isEmpty()) {
+            Edge now=pq.poll();
+            if(visited[now.end]) continue;
+            visited[now.end]=true;
+
+            for(Edge next:list[now.end]) {
+                if(dist[next.end]<next.cost) continue;
+                if(dist[next.end]>dist[now.end]+next.cost) {
+                    dist[next.end]=dist[now.end]+next.cost;
+                    pq.add(new Edge(next.end,dist[next.end]));
                 }
             }
         }
     }
- 
-    public static class Node implements Comparable<Node> {
-        int node;
-        long cost;
- 
-        public Node(int node, long cost) {
-            this.node = node;
-            this.cost = cost;
-        }
- 
-        @Override
-        public int compareTo(Node n) {
-            if(this.cost - n.cost > 0) return 1;
-            else return -1;
-        }
+}
+class Edge implements Comparable<Edge> {
+    int end;
+    long cost;
+
+    Edge(int end, long cost) {
+        this.end=end;
+        this.cost=cost;
+    }
+    @Override
+    public int compareTo(Edge o) {
+        if(this.cost<o.cost) return -1;
+        return 1;
     }
 }
